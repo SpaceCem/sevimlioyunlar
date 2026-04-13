@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Rotary - Ultimate Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0b; --phone-body: #1e272e; --gold: #d4af37; --blue: #00d2ff; --red: #ff4d4d; --green: #2ecc71;
+            --amber: #f39c12;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg); color: #fff; margin: 0;
+            display: flex; height: 100vh; overflow: hidden;
+            padding: 100px 0; box-sizing: border-box; /* Üst-Alt 100px Boşluk */
+        }
+
+        /* ANA YAPI */
+        .game-area { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
+
+        /* CHAT PANELİ */
+        .chat-container { width: 320px; padding: 0 20px; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; }
+        .chat-panel { flex: 1; background: #050505; border: 2px solid var(--gold); display: flex; flex-direction: column; border-radius: 12px; overflow: hidden; }
+        #chatMessages { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 6px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+        .chat-header { background: var(--gold); color: #000; padding: 12px; font-weight: bold; text-align: center; }
+        .msg { border-bottom: 1px solid #111; padding-bottom: 4px; }
+        .msg b { color: var(--gold); }
+        .bot-msg b { color: var(--blue); }
+        #chatInput { background: #111; border: none; border-top: 1px solid #333; color: white; padding: 12px; outline: none; }
+
+        /* SCOREBOARD */
+        .score-board { width: 95%; max-width: 900px; background: #151515; border: 2px solid #333; display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 15px; }
+        .score-item { border: 1px solid #222; text-align: center; }
+        .score-header { background: var(--gold); color: #000; font-size: 0.9rem; font-weight: 700; padding: 15px 5px; text-transform: uppercase; }
+        .score-val { color: var(--blue); font-size: 0.8rem; font-weight: bold; height: 30px; display: flex; align-items: center; justify-content: center; }
+
+        #statusMessage { height: 30px; color: var(--red); font-weight: bold; font-size: 1rem; margin-bottom: 10px; opacity: 0; transition: 0.3s; }
+
+        /* DIAL */
+        .dial-container { position: relative; width: 420px; height: 420px; background: var(--phone-body); border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 5px solid #2c3e50; }
+        .dial-inner { width: 180px; height: 180px; background: #000; border-radius: 50%; border: 4px solid #333; display: flex; justify-content: center; align-items: center; z-index: 5; position: relative; overflow: hidden; }
+
+        .category-hole { position: absolute; width: 85px; height: 85px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; color: white; cursor: pointer; z-index: 10; text-align: center; padding: 8px; box-sizing: border-box; white-space: nowrap; transition: 0.3s; }
+        .category-hole.active { border: 4px solid white; box-shadow: 0 0 20px white; transform: scale(1.1); }
+        .category-hole.filled { border: 3px solid var(--blue); background: rgba(0, 210, 255, 0.2) !important; }
+
+        /* RULET & TIMER */
+        #ruletWrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 20; background: #000; }
+        #currentLetter { font-family: 'Orbitron'; font-size: 6.5rem; color: var(--gold); text-shadow: 0 0 15px var(--gold); }
+        .timer-display { font-family: 'Orbitron'; font-size: 5.5rem; color: var(--green); text-shadow: 0 0 20px currentColor; }
+
+        .control-panel { height: 90px; display: flex; align-items: center; justify-content: center; }
+        #inputZone { display: none; background: #2c3e50; padding: 10px 25px; border-radius: 50px; border: 2px solid var(--gold); gap: 12px; align-items: center; }
+        #inputZone input { background: #000; color: #fff; border: 1px solid var(--gold); padding: 10px 15px; border-radius: 20px; outline: none; }
+
+        .opt-btn { background: #1a1a1a; border: 2px solid var(--gold); color: white; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: inherit; }
+        .opt-btn:hover { background: var(--gold); color: #000; }
+
+        /* MODALS */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 6000; flex-direction: column; justify-content: center; align-items: center; }
+        .modal-content { background: #111; padding: 30px; border: 2px solid var(--gold); border-radius: 15px; width: 380px; text-align: center; }
+        #setupScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 7000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        #finalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 5000; padding: 50px; box-sizing: border-box; overflow-y: auto; }
+        
+        .vote-bar { display: flex; height: 12px; background: #222; border-radius: 6px; margin: 20px 0; overflow: hidden; }
+        .iptal-cevap { text-decoration: line-through; color: var(--red) !important; opacity: 0.4; }
+        .itiraz-btn { background: var(--red); color: white; border: none; padding: 4px 8px; cursor: pointer; border-radius: 4px; font-size: 0.7rem; }
+    </style>
+</head>
+<body>
+
+<div id="setupScreen">
+    <h1 style="color:var(--gold); font-family:'Orbitron'; font-size: 3.5rem; letter-spacing: 10px;">RETRO ROTARY</h1>
+    <p style="color:#888; margin-bottom: 30px;">OYUNCU SAYISI SEÇİN</p>
+    <div>
+        <button class="opt-btn" onclick="startSetup(3)">3 OYUNCU</button>
+        <button class="opt-btn" onclick="startSetup(5)">5 OYUNCU</button>
+        <button class="opt-btn" onclick="startSetup(7)">7 OYUNCU</button>
+    </div>
+</div>
+
+<div id="itirazModal" class="overlay">
+    <div class="modal-content">
+        <h3 style="color:var(--gold)">İTİRAZ</h3>
+        <p id="itirazTargetText" style="font-size: 0.85rem;"></p>
+        <input type="text" id="itirazReason" placeholder="İtiraz gerekçesi..." style="width:100%; padding:10px; background:#000; color:#fff; border:1px solid #333; margin:15px 0;">
+        <div style="display:flex; gap:10px;">
+            <button class="opt-btn" style="background:#333; flex:1;" onclick="document.getElementById('itirazModal').style.display='none'">İPTAL</button>
+            <button class="opt-btn" style="background:var(--green); flex:1;" onclick="itirazOylamasiniBaslat()">OYLA</button>
+        </div>
+    </div>
+</div>
+
+<div id="votingModal" class="overlay">
+    <div class="modal-content">
+        <h3 id="votingTitle">OYLAMA SONUCU</h3>
+        <div class="vote-bar">
+            <div id="barYes" style="background:var(--green); width:0%; transition:1s;"></div>
+            <div id="barNo" style="background:var(--red); width:0%; transition:1s;"></div>
+        </div>
+        <div id="voteNumbers" style="font-family:'Orbitron'; font-size:1.2rem; margin-bottom:10px;"></div>
+        <p id="votingStatusText" style="font-size:0.9rem;"></p>
+        <button id="voteCloseBtn" class="opt-btn" style="display:none; width:100%;" onclick="document.getElementById('votingModal').style.display='none'">KAPAT</button>
+    </div>
+</div>
+
+<div class="game-area">
+    <div class="score-board" id="board"></div>
+    <div id="statusMessage">Harf Hatası!</div>
+
+    <div class="control-panel">
+        <button id="startBtn" class="opt-btn" style="display:none;" onclick="ruletiBaslat()">HARF SEÇ</button>
+        <div id="inputZone">
+            <span id="activeCatLabel" style="color:var(--gold); font-weight:bold;"></span>
+            <input type="text" id="answerInput" placeholder="Cevap..." autocomplete="off">
+            <button class="opt-btn" style="background:var(--green); border:none;" onclick="saveProcess()">EKLE</button>
+            <button class="opt-btn" style="background:var(--amber); border:none;" onclick="gec()">GEÇ</button>
+        </div>
+    </div>
+
+    <div class="dial-container" id="dialContainer">
+        <div class="dial-inner">
+            <div id="ruletWrapper">
+                <div id="currentLetter">?</div>
+                <button class="opt-btn" style="background:var(--red); border:none; font-size:0.6rem; padding:5px 8px;" onclick="harfiDurdur()">DURDUR</button>
+            </div>
+            <div class="timer-display" id="timerDisplay">90</div>
+        </div>
+    </div>
+</div>
+
+<div class="chat-container">
+    <div class="chat-panel">
+        <div class="chat-header">RADYO SOHBET</div>
+        <div id="chatMessages"></div>
+        <input type="text" id="chatInput" placeholder="Mesaj yaz..." autocomplete="off">
+    </div>
+</div>
+
+<div id="finalOverlay">
+    <div style="max-width:1100px; margin:auto; background:#151515; border:2px solid var(--gold); border-radius:15px; padding:30px;">
+        <h2 style="color:var(--gold); text-align:center; font-family:'Orbitron';">SONUÇLAR</h2>
+        <div id="tableWrapper"></div>
+    </div>
+</div>
+
+<script>
+    const harfler = "ABCÇDEFGHIİJKLMNOÖPRSŞTUÜVYZ"; // Ğ yok
+    const categories = ["İsim", "Şehir", "Hayvan", "Bitki", "Eşya", "Ünlü", "Ülke"];
+    const botMsgs = ["Buldum!", "Çok zormuş!", "Şehir ne var?", "Kopyaya hayır :)", "Süre bitiyor!", "Hadi herkes yazsın"];
+    
+    let playerCount = 3, timeLeft = 90, currentHarf = "", gameActive = false, activeCategoryIndex = -1;
+    let userAnswers = Array(7).fill(""), timerInterval, ruletInterval, allData = [];
+    let playerNames = ["SİZ"];
+    let currentItiraz = { pIdx: null, cIdx: null };
+
+    function addChatMessage(sender, text) {
+        const div = document.createElement('div');
+        div.className = (sender === "SİZ" || sender === "Sistem") ? "msg" : "msg bot-msg";
+        div.innerHTML = `<b>${sender}:</b> ${text}`;
+        const chatBox = document.getElementById('chatMessages');
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    document.getElementById('chatInput').onkeypress = (e) => {
+        if(e.key === 'Enter' && e.target.value.trim()){
+            addChatMessage("SİZ", e.target.value);
+            e.target.value = "";
+        }
+    };
+
+    function botChatLoop() {
+        if(!gameActive) return;
+        if(Math.random() > 0.7) {
+            const bot = playerNames[Math.floor(Math.random()*(playerCount-1))+1];
+            addChatMessage(bot, botMsgs[Math.floor(Math.random()*botMsgs.length)]);
+        }
+        setTimeout(botChatLoop, 4000);
+    }
+
+    function startSetup(num) {
+        playerCount = num;
+        playerNames = ["SİZ"];
+        const bots = ["Aslı_Bot", "Mert_X", "Can_Retro", "Ece_VR", "Selin_AI", "Bora_90s"];
+        for(let i=0; i < num-1; i++) playerNames.push(bots[i]);
+        document.getElementById('setupScreen').style.display = 'none';
+        document.getElementById('startBtn').style.display = 'block';
+        initBoard();
+    }
+
+    function initBoard() {
+        const board = document.getElementById('board');
+        const container = document.getElementById('dialContainer');
+        board.innerHTML = "";
+        categories.forEach((cat, i) => {
+            board.innerHTML += `<div class="score-item"><div class="score-header">${cat}</div><div class="score-val" id="val-${i}"></div></div>`;
+            const angle = (i * (360 / categories.length) - 90) * (Math.PI / 180);
+            const x = 210 + 160 * Math.cos(angle) - 42.5;
+            const y = 210 + 160 * Math.sin(angle) - 42.5;
+            const hole = document.createElement('div');
+            hole.className = 'category-hole'; hole.id = `hole-${i}`;
+            hole.style.left = `${x}px`; hole.style.top = `${y}px`;
+            hole.style.backgroundColor = `hsl(${i * 50}, 60%, 30%)`;
+            hole.innerText = cat; hole.onclick = () => openInput(i);
+            container.appendChild(hole);
+        });
+    }
+
+    function ruletiBaslat() {
+        document.getElementById('startBtn').style.display = 'none';
+        document.getElementById('ruletWrapper').style.display = 'flex';
+        ruletInterval = setInterval(() => {
+            currentHarf = harfler[Math.floor(Math.random() * harfler.length)];
+            document.getElementById('currentLetter').innerText = currentHarf;
+        }, 70);
+    }
+
+    function harfiDurdur() {
+        clearInterval(ruletInterval);
+        setTimeout(() => {
+            document.getElementById('ruletWrapper').style.display = 'none';
+            addChatMessage("Sistem", `Harf: ${currentHarf}. Başla!`);
+            oyunuBaslat();
+        }, 800);
+    }
+
+    function oyunuBaslat() {
+        gameActive = true;
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            const timerEl = document.getElementById('timerDisplay');
+            timerEl.innerText = timeLeft;
+            if (timeLeft <= 10) timerEl.style.color = "var(--red)";
+            else if (timeLeft <= 20) timerEl.style.color = "var(--amber)";
+            if (timeLeft <= 0) bitir();
+        }, 1000);
+        openInput(0);
+        botChatLoop();
+    }
+
+    function openInput(index) {
+        if (!gameActive) return;
+        activeCategoryIndex = index;
+        document.querySelectorAll('.category-hole').forEach(h => h.classList.remove('active'));
+        document.getElementById(`hole-${index}`).classList.add('active');
+        document.getElementById('activeCatLabel').innerText = `${currentHarf}-${categories[index]}:`;
+        document.getElementById('inputZone').style.display = 'flex';
+        document.getElementById('answerInput').focus();
+    }
+
+    function saveProcess() {
+        const val = document.getElementById('answerInput').value.trim();
+        if (val && val[0].toLocaleUpperCase('tr-TR') === currentHarf) {
+            userAnswers[activeCategoryIndex] = val;
+            document.getElementById(`val-${activeCategoryIndex}`).innerText = val;
+            document.getElementById(`hole-${activeCategoryIndex}`).classList.add('filled');
+            document.getElementById('answerInput').value = "";
+            gec();
+        } else if (val) {
+            const el = document.getElementById('statusMessage');
+            el.style.opacity = 1; setTimeout(() => el.style.opacity = 0, 1500);
+        }
+    }
+
+    function gec() { openInput((activeCategoryIndex + 1) % 7); }
+    document.getElementById('answerInput').onkeypress = (e) => { if(e.key === 'Enter') saveProcess(); };
+
+    function bitir() {
+        gameActive = false; clearInterval(timerInterval);
+        document.getElementById('inputZone').style.display = 'none';
+        allData = [];
+        for (let p = 0; p < playerCount; p++) {
+            let pAns = (p === 0) ? [...userAnswers] : categories.map(() => Math.random() > 0.4 ? currentHarf + "Cevap" : "");
+            allData.push({ name: playerNames[p], answers: pAns, points: Array(7).fill(0), iptal: Array(7).fill(false), total: 0 });
+        }
+        hesapla();
+        document.getElementById('finalOverlay').style.display = 'block';
+    }
+
+    function hesapla() {
+        allData.forEach(p => { p.total = 0; p.points.fill(0); });
+        for (let c = 0; c < 7; c++) {
+            let catAns = allData.map(p => p.iptal[c] ? "" : p.answers[c].toLocaleLowerCase('tr-TR').trim());
+            allData.forEach((player, pIdx) => {
+                let ans = catAns[pIdx]; if (!ans) return;
+                let same = catAns.filter(a => a === ans).length;
+                let valid = catAns.filter(a => a !== "").length;
+                let p = (valid === 1) ? (playerCount >= 7 ? 20 : 15) : (same === 1 ? 15 : 10);
+                if (same > 1 && same === valid) p = 5;
+                player.points[c] = p; player.total += p;
+            });
+        }
+        tabloyuCiz();
+    }
+
+    function tabloyuCiz() {
+        let h = `<table style="width:100%; border-collapse:collapse;"><thead><tr style="background:#222;"><th>Kategori</th>`;
+        playerNames.forEach(n => h += `<th style="color:var(--gold)">${n}</th>`);
+        h += `</tr></thead><tbody>`;
+        categories.forEach((cat, cIdx) => {
+            h += `<tr><td style="font-weight:bold; background:#1a1a1a; padding:12px;">${cat}</td>`;
+            allData.forEach((p, pIdx) => {
+                h += `<td class="${p.iptal[cIdx]?'iptal-cevap':''}" style="border:1px solid #333; padding:10px;">
+                    <span style="font-size:0.7rem; color:var(--blue); display:block;">${p.points[cIdx]}P</span>
+                    ${p.answers[cIdx] || '-'} ${(!p.iptal[cIdx] && p.answers[cIdx] && pIdx !== 0) ? `<button class="itiraz-btn" onclick="openItiraz(${pIdx},${cIdx})">!</button>` : ''}
+                </td>`;
+            });
+            h += `</tr>`;
+        });
+        h += `</tbody></table><button class="opt-btn" style="width:100%; margin-top:20px; background:var(--green); border:none;" onclick="location.reload()">YENİ OYUN</button>`;
+        document.getElementById('tableWrapper').innerHTML = h;
+    }
+
+    function openItiraz(pIdx, cIdx) {
+        currentItiraz = { pIdx, cIdx };
+        document.getElementById('itirazTargetText').innerText = `${playerNames[pIdx]} oyuncusunun "${allData[pIdx].answers[cIdx]}" cevabına itiraz edilsin mi?`;
+        document.getElementById('itirazModal').style.display = 'flex';
+    }
+
+    function itirazOylamasiniBaslat() {
+        document.getElementById('itirazModal').style.display = 'none';
+        document.getElementById('votingModal').style.display = 'flex';
+        document.getElementById('voteCloseBtn').style.display = 'none';
+        
+        let evet = 1; let hayir = 0;
+        let botVoters = playerCount - 2;
+
+        setTimeout(() => {
+            for(let i=0; i < botVoters; i++) Math.random() > 0.5 ? evet++ : hayir++;
+            if(evet === hayir) Math.random() > 0.5 ? evet++ : hayir++; // Eşitliği boz
+
+            const total = evet + hayir;
+            document.getElementById('barYes').style.width = (evet/total*100) + "%";
+            document.getElementById('barNo').style.width = (hayir/total*100) + "%";
+            document.getElementById('voteNumbers').innerText = `KABUL: ${evet} | RED: ${hayir}`;
+            
+            if (evet > hayir) {
+                document.getElementById('votingStatusText').innerHTML = "<b style='color:var(--green)'>İTİRAZ KABUL!</b> Puan silindi.";
+                allData[currentItiraz.pIdx].iptal[currentItiraz.cIdx] = true; hesapla();
+            } else {
+                document.getElementById('votingStatusText').innerHTML = "<b style='color:var(--red)'>İTİRAZ REDDEDİLDİ!</b>";
+            }
+            document.getElementById('voteCloseBtn').style.display = 'block';
+        }, 1200);
+    }
+</script>
+</body>
+</html>

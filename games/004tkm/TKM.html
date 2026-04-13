@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Pixel Duel: Dark Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="TKM.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <div class="score-card">
+                <div id="p-name-label" class="label">SAVAŞÇI</div>
+                <div id="player-score" class="score">0</div>
+            </div>
+            <div class="vs-badge">VS</div>
+            <div class="score-card">
+                <div id="b-name-label" class="label">BADHAND</div>
+                <div id="bot-score" class="score">0</div>
+            </div>
+        </div>
+
+        <div class="battle-arena" id="arena">
+            <div id="p-spot" class="spotlight"></div>
+            <div id="b-spot" class="spotlight"></div>
+            
+            <div class="hand-wrapper">
+                <div id="player-hand" class="hand-sprite idle"></div>
+                <div id="p-slash" class="slash-effect"></div>
+            </div>
+            
+            <div class="hand-wrapper">
+                <div id="bot-hand" class="hand-sprite idle"></div>
+                <div id="b-slash" class="slash-effect"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="choice-btn" onclick="playGame('tas')" id="btn-tas"></button>
+            <button class="choice-btn" onclick="playGame('kagit')" id="btn-kagit"></button>
+            <button class="choice-btn" onclick="playGame('makas')" id="btn-makas"></button>
+        </div>
+    </div>
+    <script src="TKM.js"></script>
+</body>
+</html>

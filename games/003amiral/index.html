@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Stratejik Harekat Merkezi</title>
+    <link rel="stylesheet" href="kav.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="bg-overlay"></div>
+
+    <div id="game-over-overlay" class="overlay hidden">
+        <div class="menu-box">
+            <h2 id="final-result-text">OPERASYON TAMAMLANDI</h2>
+            <p>Yeniden başlamak ister misiniz?</p>
+            <div class="menu-buttons">
+                <button onclick="location.reload()">EVET</button>
+                <button onclick="window.close()">HAYIR</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="battle-overlay" class="overlay hidden">
+        <div class="hologram-box"><h2 class="hologram-text">MÜCADELE ZAMANI</h2></div>
+    </div>
+
+    <main id="main-layout">
+        <section id="left-sidebar">
+            <button id="start-battle-btn" class="hidden" onclick="triggerBattleStart()">SAVAŞI BAŞLAT</button>
+            
+            <div id="ammo-panel" class="panel ammo-highlight">
+                <div id="ammo-visuals" class="ammo-flex"></div>
+                <div class="panel-label" style="text-align:center; font-family:'Orbitron'; font-size:0.8rem;">Kalan Mühimmat: <span id="ammo-count">5</span></div>
+            </div>
+
+            <div id="inventory-panel" class="panel">
+                <div class="panel-label" style="font-weight:bold; margin-bottom:10px; font-family: 'Orbitron';">DONANMA ENVANTERİ</div>
+                <div class="ship-list">
+                    <div class="ship-item" onclick="selectShip(5)">
+                        <div class="ship-slot"><img src="images/5x.png" class="inventory-ship-img" alt="Amiral"></div>
+                        <div class="ship-info"><span>Amiral</span> <span id="count-5">1</span></div>
+                    </div>
+                    <div class="ship-item" onclick="selectShip(4)">
+                        <div class="ship-slot"><img src="images/4x.png" class="inventory-ship-img" alt="Kruvazör"></div>
+                        <div class="ship-info"><span>Kruvazör</span> <span id="count-4">2</span></div>
+                    </div>
+                    <div class="ship-item" onclick="selectShip(3)">
+                        <div class="ship-slot"><img src="images/3x.png" class="inventory-ship-img" alt="Fırkateyn"></div>
+                        <div class="ship-info"><span>Fırkateyn</span> <span id="count-3">2</span></div>
+                    </div>
+                    <div class="ship-item" onclick="selectShip(2)">
+                        <div class="ship-slot"><img src="images/2x.png" class="inventory-ship-img" alt="Denizaltı"></div>
+                        <div class="ship-info"><span>Denizaltı</span> <span id="count-2">2</span></div>
+                    </div>
+                    <div class="ship-item" onclick="selectShip(1)">
+                        <div class="ship-slot"><img src="images/1x.png" class="inventory-ship-img" alt="Muhrip"></div>
+                        <div class="ship-info"><span>Muhrip</span> <span id="count-1">2</span></div>
+                    </div>
+                </div>
+                <button id="random-place-btn" onclick="randomPlacePlayerShips()">RASTGELE YERLEŞTİR</button>
+            </div>
+            <div class="monitor"><div id="last-action">SİSTEM ÇEVRİMİÇİ</div></div>
+        </section>
+
+        <section id="center-hub">
+            <div class="hp-container-fixed">
+                <div class="health-label">DONANMA BÜTÜNLÜĞÜ</div>
+                <div class="health-bar-bg"><div id="player-health-fill" class="health-fill green"></div></div>
+            </div>
+            <div class="radar-circle player-radar">
+                <div class="sweep blue-sweep"></div>
+                <div id="player-grid" class="custom-grid"></div>
+            </div>
+        </section>
+
+        <section id="radar-panel">
+            <div class="hp-container-fixed">
+                <div class="health-label">DÜŞMAN RADAR SİNYALİ</div>
+                <div class="health-bar-bg"><div id="enemy-health-fill" class="health-fill green"></div></div>
+            </div>
+            <div class="radar-circle enemy-radar">
+                <div class="sweep green-sweep"></div>
+                <div id="radar-grid" class="custom-grid"></div>
+            </div>
+        </section>
+    </main>
+    <script src="kav.js"></script>
+</body>
+</html>

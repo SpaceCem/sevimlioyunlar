@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena - Savaşçı Girişi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="main-content">
+            <div class="auth-box" id="main-menu">
+                <button id="btn-login" class="pixel-gate-btn gold">SAVAŞÇI GİRİŞİ</button>
+                <button id="btn-register" class="pixel-gate-btn silver">SAVAŞÇI OL</button>
+                <button id="btn-guest" class="pixel-gate-btn bronze">MİSAFİR OL</button>
+            </div>
+
+            <div id="guest-panel" class="guest-modal" style="display: none;">
+                <p class="panel-text">ADINI SÖYLE YABANCI...</p>
+                <input type="text" id="guest-name-input" class="pixel-input" maxlength="12" placeholder="...">
+                <div class="panel-buttons">
+                    <button id="btn-confirm-guest" class="pixel-gate-btn bronze small">GİRİŞ</button>
+                    <button id="btn-cancel-guest" class="pixel-gate-btn silver small">GERİ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

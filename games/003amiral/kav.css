@@ -1,0 +1,111 @@
+:root {
+    --navy: #455a64; --green: #4caf50; --orange: #ff9800; --red: #f44336; --blue: #2196f3;
+}
+
+body { 
+    margin: 0; 
+    background: #000; 
+    font-family: 'Inter', sans-serif; 
+    overflow: hidden; 
+    height: 100vh; 
+    /* Yazı imlecini ve seçmeyi kapatan satırlar */
+    user-select: none; 
+    -webkit-user-select: none;
+    cursor: default; 
+}
+
+#bg-overlay {
+    position: fixed; inset: 0; background: url('images/bat.png') no-repeat center center fixed;
+    background-size: cover; opacity: 0.5; z-index: -1;
+}
+
+#main-layout { display: grid; grid-template-columns: 320px 1fr 1fr; gap: 20px; padding: 40px 20px; height: 100vh; align-items: center; }
+
+.ship-list { display: flex; flex-direction: column; gap: 12px; margin: 15px 0; }
+
+.ship-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(69, 90, 100, 0.4);
+    height: 60px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #fff;
+    display: flex; 
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.ship-slot {
+    width: 90px;
+    height: 100%;
+    background: rgba(33, 150, 243, 0.15);
+    border-right: 2px solid var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ship-item:hover { 
+    background: rgba(33, 150, 243, 0.2); 
+    border-color: var(--blue);
+}
+
+.inventory-ship-img {
+    height: 80%;
+    width: auto;
+    max-width: 80px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px var(--blue));
+}
+
+.ship-info { 
+    flex-grow: 1; 
+    padding: 0 15px;
+    font-weight: bold; 
+    font-family: 'Orbitron'; 
+    font-size: 0.75rem; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.radar-circle { width: 480px; height: 480px; border-radius: 50%; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0 auto; background: rgba(0,0,0,0.4); }
+.player-radar { border: 8px solid var(--blue); box-shadow: 0 0 20px rgba(33, 150, 243, 0.4); }
+.enemy-radar { border: 8px solid var(--green); box-shadow: 0 0 20px rgba(76, 175, 80, 0.4); }
+.custom-grid { display: grid; grid-template-columns: repeat(10, 42px); grid-template-rows: repeat(10, 42px); gap: 2px; z-index: 10; }
+.cell { width: 42px; height: 42px; background: rgba(255,255,255,0.15); border: 0.5px solid rgba(255,255,255,0.1); cursor: pointer; position: relative; }
+.cell.hidden-cell { visibility: hidden; pointer-events: none; }
+.cell.placed { background: var(--blue); box-shadow: inset 0 0 10px white; }
+.sweep { position: absolute; width: 100%; height: 100%; animation: rotating 4s linear infinite; z-index: 5; }
+.blue-sweep { background: conic-gradient(from 0deg, transparent, rgba(33, 150, 243, 0.4)); }
+.green-sweep { background: conic-gradient(from 0deg, transparent, rgba(76, 175, 80, 0.4)); }
+@keyframes rotating { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.hp-container-fixed { width: 400px; margin: 0 auto 15px auto; background: rgba(255, 255, 255, 0.9); padding: 10px; border-radius: 8px; border: 1px solid var(--navy); }
+.health-label { font-family: 'Orbitron'; font-size: 0.7rem; text-align: center; font-weight: bold; }
+.health-bar-bg { width: 100%; height: 12px; background: #eee; border-radius: 6px; overflow: hidden; margin-top: 5px; }
+.health-fill { height: 100%; transition: 0.5s; width: 100%; }
+.health-fill.green { background: var(--green); }
+.health-fill.orange { background: var(--orange); }
+.health-fill.red { background: var(--red); }
+
+.panel { background: rgba(255, 255, 255, 0.9); border-radius: 12px; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; }
+.ammo-highlight { background: linear-gradient(135deg, #cfd8dc 0%, #90a4ae 100%) !important; padding: 20px 10px !important; }
+
+.ammo-flex { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; }
+.ammo-unit { width: 52px; height: 105px; object-fit: contain; }
+
+#start-battle-btn { width: 100%; padding: 15px; background: var(--red); color: white; font-family: 'Orbitron'; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 10px; }
+#random-place-btn { width: 100%; padding: 10px; background: var(--navy); color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; font-family: 'Orbitron'; font-size: 0.7rem; }
+.monitor { width: 100%; height: 40px; background: #263238; color: var(--green); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron'; border-radius: 8px; }
+.hit-cell::after { content: ""; position: absolute; inset: 0; background: url('images/hit.png') no-repeat center; background-size: cover; z-index: 20; }
+.miss-cell::after { content: ""; position: absolute; inset: 0; background: url('images/su.png') no-repeat center; background-size: cover; z-index: 20; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+.menu-box { background: white; padding: 40px; border-radius: 15px; text-align: center; font-family: 'Orbitron'; border: 4px solid var(--navy); }
+.menu-buttons { display: flex; gap: 20px; justify-content: center; margin-top: 20px; }
+.menu-buttons button { padding: 10px 30px; background: var(--navy); color: white; cursor: pointer; border: none; font-family: 'Orbitron'; }
+.hologram-text { font-family: 'Orbitron'; font-size: 3rem; color: var(--green); text-shadow: 0 0 20px var(--green); text-align: center; }
+.hidden { display: none !important; }

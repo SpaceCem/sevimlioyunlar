@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Rotary - Ultimate Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="textgame.css">
+</head>
+<body>
+
+<div id="setupScreen">
+    <h1 class="logo-text">RETRO ROTARY</h1>
+    <p style="color:#888; margin-bottom: 30px;">OYUNCU SAYISI SEÇİN</p>
+    <div>
+        <button class="opt-btn" onclick="startSetup(3)">3 OYUNCU</button>
+        <button class="opt-btn" onclick="startSetup(5)">5 OYUNCU</button>
+        <button class="opt-btn" onclick="startSetup(7)">7 OYUNCU</button>
+    </div>
+</div>
+
+<div id="itirazModal" class="overlay">
+    <div class="modal-content">
+        <h3 style="color:var(--gold)">İTİRAZ</h3>
+        <p id="itirazTargetText" style="font-size: 0.85rem;"></p>
+        <input type="text" id="itirazReason" placeholder="İtiraz gerekçesi..." class="modal-input">
+        <div style="display:flex; gap:10px;">
+            <button class="opt-btn" style="background:#333; flex:1;" onclick="closeModal('itirazModal')">İPTAL</button>
+            <button class="opt-btn" style="background:var(--green); flex:1;" onclick="itirazOylamasiniBaslat()">OYLA</button>
+        </div>
+    </div>
+</div>
+
+<div id="votingModal" class="overlay">
+    <div class="modal-content">
+        <h3 id="votingTitle">OYLAMA SONUCU</h3>
+        <div class="vote-bar">
+            <div id="barYes" style="background:var(--green); width:0%; transition:1s;"></div>
+            <div id="barNo" style="background:var(--red); width:0%; transition:1s;"></div>
+        </div>
+        <div id="voteNumbers" class="digital-font" style="font-size:1.2rem; margin-bottom:10px;"></div>
+        <p id="votingStatusText" style="font-size:0.9rem;"></p>
+        <button id="voteCloseBtn" class="opt-btn" style="display:none; width:100%;" onclick="closeModal('votingModal')">KAPAT</button>
+    </div>
+</div>
+
+<div class="game-area">
+    <div class="score-board" id="board"></div>
+    <div id="statusMessage">Harf Hatası!</div>
+
+    <div class="control-panel">
+        <button id="startBtn" class="opt-btn" style="display:none;" onclick="ruletiBaslat()">HARF SEÇ</button>
+        <div id="inputZone">
+            <span id="activeCatLabel" style="color:var(--gold); font-weight:bold;"></span>
+            <input type="text" id="answerInput" placeholder="Cevap..." autocomplete="off">
+            <button class="opt-btn" style="background:var(--green); border:none;" onclick="saveProcess()">EKLE</button>
+            <button class="opt-btn" style="background:var(--amber); border:none;" onclick="gec()">GEÇ</button>
+        </div>
+    </div>
+
+    <div class="dial-container" id="dialContainer">
+        <div class="dial-inner">
+            <div id="ruletWrapper">
+                <div id="currentLetter" class="digital-font">?</div>
+                <button class="opt-btn stop-btn" onclick="harfiDurdur()">DURDUR</button>
+            </div>
+            <div class="timer-display digital-font" id="timerDisplay">90</div>
+        </div>
+    </div>
+</div>
+
+<div class="chat-container">
+    <div class="chat-panel">
+        <div class="chat-header">RADYO SOHBET</div>
+        <div id="chatMessages"></div>
+        <input type="text" id="chatInput" placeholder="Mesaj yaz..." autocomplete="off">
+    </div>
+</div>
+
+<div id="finalOverlay">
+    <div class="final-results-container">
+        <h2 class="digital-font" style="color:var(--gold); text-align:center;">SONUÇLAR</h2>
+        <div id="tableWrapper"></div>
+    </div>
+</div>
+
+<script src="textgame.js"></script>
+</body>
+</html>

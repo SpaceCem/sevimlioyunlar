@@ -1,0 +1,100 @@
+/* Temel Ayarlar */
+body { 
+    background-color: #0d0d0d; 
+    color: white; 
+    font-family: 'Press Start 2P', cursive; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0; 
+}
+
+.game-container { 
+    width: 480px; 
+    background: #1a1a1a; 
+    border: 4px solid #333; 
+    padding: 20px; 
+    border-radius: 12px; 
+    box-shadow: 0 10px 0 #000; 
+}
+
+/* Arena Alanı */
+.battle-arena {
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center;
+    height: 220px; 
+    background-image: url('images/arena.png');
+    background-size: cover;
+    background-position: center;
+    image-rendering: pixelated;
+    border-radius: 8px;
+    position: relative; 
+    overflow: hidden;
+}
+
+/* Spot Işığı ve Efektler */
+.spotlight {
+    position: absolute; top: 0; width: 150px; height: 100%;
+    background: radial-gradient(circle at top, rgba(255, 255, 200, 0.4) 0%, transparent 80%);
+    clip-path: polygon(25% 0, 75% 0, 100% 100%, 0 100%);
+    opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 2;
+}
+#p-spot { left: 40px; }
+#b-spot { right: 40px; }
+.show-spot { opacity: 1 !important; }
+
+.slash-effect {
+    position: absolute; top: 50%; left: 50%; width: 140%; height: 10px;
+    background: #ff0000; transform: translate(-50%, -50%) rotate(-45deg) scaleX(0);
+    box-shadow: 0 0 15px #f00; z-index: 10; pointer-events: none; opacity: 0;
+}
+.animate-slash { animation: slash-play 0.4s ease-out forwards; }
+@keyframes slash-play {
+    0% { transform: translate(-50%, -50%) rotate(-45deg) scaleX(0); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translate(-50%, -50%) rotate(-45deg) scaleX(1.2); opacity: 0; }
+}
+
+/* El Sprite'ları */
+.hand-wrapper { position: relative; width: 128px; height: 128px; z-index: 3; }
+.hand-sprite { 
+    width: 100%; height: 100%; background-size: contain; 
+    background-repeat: no-repeat; image-rendering: pixelated; transition: filter 0.3s;
+}
+#bot-hand { transform: scaleX(-1); }
+.lose-fade { filter: brightness(0.3) grayscale(1); }
+
+/* Kontroller */
+.controls { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+.choice-btn {
+    width: 70px; height: 70px; border: 3px solid #FFD700; background-color: #2a2a2a;
+    background-size: 70%; background-position: center; background-repeat: no-repeat;
+    cursor: pointer; transition: 0.2s; border-radius: 50%; /* Daha yuvarlak butonlar */
+}
+#btn-tas { background-image: url('images/BT.png'); }
+#btn-kagit { background-image: url('images/BK.png'); }
+#btn-makas { background-image: url('images/BM.png'); }
+
+.choice-btn:hover { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+
+/* Üst Panel */
+.header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.score-card { text-align: center; }
+.label { font-size: 8px; color: #CD7F32; margin-bottom: 5px; } /* Bronze tonu */
+.score { font-size: 24px; color: #ffd700; }
+.vs-badge { background: #e91e63; padding: 5px 10px; font-size: 10px; align-self: center; transform: skewX(-15deg); }
+
+/* Animasyon Tanımları */
+.idle { animation: idle-seq 3s infinite steps(1); }
+@keyframes idle-seq {
+    0%, 15%, 31%, 46%, 62%, 92%, 100% { background-image: url('images/1.png'); }
+    8%, 38%, 54% { background-image: url('images/2.png'); }
+    23%, 69%, 85% { background-image: url('images/3.png'); }
+    42% { background-image: url('images/4.png'); }
+    77% { background-image: url('images/5.png'); }
+}
+.tas-anim { background-image: url('images/got1.png') !important; }
+.kagit-anim { background-image: url('images/gok1.png') !important; }
+.makas-anim { background-image: url('images/gom1.png') !important; }

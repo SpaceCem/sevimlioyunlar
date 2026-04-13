@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yakan Top</title>
+    <link rel="stylesheet" href="game.css">
+</head>
+<body>
+    <div id="profile-screen">
+        <h1>Hoş Geldin</h1>
+        <input type="text" id="playerName" placeholder="Oyuncu İsmi">
+        
+        <label for="playerImage">Avatar Yükle (PC'den):</label>
+        <br>
+        <input type="file" id="playerImage" accept="image/*">
+        <br>
+        <label>Ya da Bir Avatar Seç:</label>
+        <div id="avatar-selection">
+            <img src="images/avatar1.png" class="avatar" alt="Avatar 1">
+            <img src="images/avatar2.png" class="avatar" alt="Avatar 2">
+            <img src="images/avatar3.png" class="avatar" alt="Avatar 3">
+            <img src="images/avatar4.png" class="avatar" alt="Avatar 4">
+            <img src="images/avatar5.png" class="avatar" alt="Avatar 5">
+        </div>
+        <div id="avatar-selection">
+            <img src="images/avatar6.png" class="avatar" alt="Avatar 6">
+            <img src="images/avatar7.png" class="avatar" alt="Avatar 7">
+            <img src="images/avatar8.png" class="avatar" alt="Avatar 8">
+            <img src="images/avatar9.png" class="avatar" alt="Avatar 9">
+            <img src="images/avatar10.png" class="avatar" alt="Avatar 10">
+        </div>
+
+        <button id="createProfileBtn">Oyuna Başla</button>
+
+        <div class="info-box-container">
+            <h2>Top Türleri ve Özellikleri</h2>
+            <div class="info-box"><div class="ball normal-enemy"></div><span>Kırmızı Top: Normal Düşman</span></div>
+            <div class="info-box"><div class="ball fast-enemy"></div><span>Mavi Top: %20 Hızlı Düşman</span></div>
+            <div class="info-box"><div class="ball big-enemy"></div><span>Mor Top: Büyük ve Yavaş Düşman</span></div>
+            <div class="info-box"><div class="ball speed-bonus"></div><span>Yeşil Top: Hız Bonusu</span></div>
+            <div class="info-box"><div class="ball invincible-bonus"></div><span>Sarı Top: Güç Bonusu</span></div>
+            <div class="info-box"><div class="ball life-bonus"></div><span>Pembe Top: Can Bonusu</span></div>
+            <div class="info-box"><div class="ball surprise-bonus">?</div><span>Soru İşareti Top: Rastgele Bonus</span></div>
+        </div>
+    </div>
+
+    <div id="game-screen" style="display: none;">
+        <div id="status-display"></div>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div id="ready-go-banner" class="hidden"></div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
