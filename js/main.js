@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const gameData = [
         { 
-            title: "Kelimelik", 
+            title: "harflik", 
             folder: "games/001kelimelik", 
             thumb: "assests/common/kelimelik.png" 
         },
