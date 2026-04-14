@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         { 
             title: "İsm Şehr Hayvn", 
-            folder: "games/005ish", 
+            folder: "games/005ihs", 
             thumb: "assests/common/ish.png" 
         },
         { 
