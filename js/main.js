@@ -24,9 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
             thumb: "assests/common/tkm.png" 
         },
         { 
-            title: "İsm Şehr Hayvn", 
-            folder: "games/005ish", 
-            thumb: "assests/common/ish.png" 
+            title: "ihs", 
+            folder: "games/005ihs", 
+            thumb: "assests/common/ihs.png" 
         },
         { 
             title: "Life Caster", 
