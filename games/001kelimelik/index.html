@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oyuncu Profili</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+
+    <div class="profile-container">
+        <h1>SENDE KİMSİN</h1>
+        
+        <div class="name-section" id="name-box">
+            <input type="text" id="playerName" maxlength="15" placeholder="ADIN?" autocomplete="off">
+        </div>
+     <h1>YETENEĞİN NEDİR</h1>
+        <div class="avatar-section">
+            <div class="avatar-grid">
+                <div class="row-wrapper" data-error-row="1">
+                    <button class="avatar-btn" data-row="1" data-val="Büyücü" data-emoji="🧙">🧙</button>
+                    <button class="avatar-btn" data-row="1" data-val="Barbar" data-emoji="🪓">🪓</button>
+                    <button class="avatar-btn" data-row="1" data-val="Okçu" data-emoji="🏹">🏹</button>
+                    <button class="avatar-btn" data-row="1" data-val="Ozan" data-emoji="🪕">🪕</button>
+                </div>
+     <h1>KAÇ YAŞINDASIN</h1>
+                <div class="row-wrapper" data-error-row="2">
+                    <button class="avatar-btn text-btn" data-row="2" data-val="4-5">4-5</button>
+                    <button class="avatar-btn text-btn" data-row="2" data-val="6-7">6-7</button>
+                    <button class="avatar-btn text-btn" data-row="2" data-val="8-9">8-9</button>
+                    <button class="avatar-btn text-btn" data-row="2" data-val="10+">10+</button>
+                </div>
+     <h1>SEMBOLÜN NEDİR</h1>
+                <div class="row-wrapper double-row" data-error-row="34">
+                    <button class="avatar-btn" data-row="34" data-emoji="🐱">🐱</button>
+                    <button class="avatar-btn" data-row="34" data-emoji="🐶">🐶</button>
+                    <button class="avatar-btn" data-row="34" data-emoji="FOX">🦊</button>
+                    <button class="avatar-btn" data-row="34" data-emoji="🦁">🦁</button>
+                    <button class="avatar-btn" data-row="34" data-emoji="DRG">🐉</button>
+                    <button class="avatar-btn" data-row="34" data-emoji="UNI">🦄</button>
+                    <button class="avatar-btn" data-row="34" data-emoji="GHO">👻</button>
+                    <button class="avatar-btn" data-row="34" data-emoji="ROB">🤖</button>
+                </div>
+            </div>
+        </div>
+
+        <button id="startBtn" class="start-btn">OYUNA BAŞLA</button>
+    </div>
+
+    <script src="profile.js"></script>
+</body>
+</html>
