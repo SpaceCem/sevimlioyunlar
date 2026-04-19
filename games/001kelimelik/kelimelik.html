@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kelime Macerası v2.1 - Kara Serisi</title>
+    <link rel="stylesheet" href="kelime.css">
+    <link rel="stylesheet" href="buttons.css">
+</head>
+<body>
+    <div class="game-container">
+        
+        <!-- VERSUS HP BAR -->
+        <div class="hp-bars">
+            <div class="hp-labels">
+                <span class="player-label">SİZ</span>
+                <span class="enemy-label" id="enemy-label">KARA KEDİ</span>
+            </div>
+            
+            <div class="versus-hp-bar">
+                <div class="hp-fill player-fill" id="player-hp-fill"></div>
+                <div class="versus-divider" id="versus-divider"></div>
+                <div class="hp-fill enemy-fill" id="enemy-hp-fill"></div>
+            </div>
+        </div>
+
+        <!-- BATTLE SCENE -->
+        <div class="battle-scene" id="battle-area">
+            <img src="images/arkaplan.png" alt="Arka Plan" class="battle-background">
+            
+            <img src="images/oyuncu001.png" alt="Oyuncu" class="character player-character" id="player-character">
+            <img src="images/rakip001.png" alt="Rakip" class="character enemy-character" id="enemy-character">
+        </div>
+
+        <div class="word-display" id="current-word">KELİME OLUŞTUR</div>
+
+        <div class="grid-container" id="letter-grid"></div>
+
+        <div class="controls">
+            <button id="btn-scramble" class="primary">KARIŞTIR</button>
+            <div class="pati-puan-display">
+                <img src="images/coin.png" alt="Coin" class="coin-icon">
+                <span id="score-display">150</span>
+            </div>
+            <button id="btn-submit" class="primary">SALDIR!</button>
+        </div>
+    </div>
+
+    <div id="game-over" class="game-over">
+        <div class="modal">
+            <h1 id="end-title"></h1>
+            <p id="end-subtitle"></p>
+            <button id="restart-btn">YENİDEN BAŞLA</button>
+        </div>
+    </div>
+    
+    <script src="buttons.js"></script>
+    <script type="module" src="kelime.js"></script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+/* kelime.css - Karakter Boyutları ve Yönü Düzeltilmiş Versiyon */
+:root {
+    --bg: #0f1329;
+    --border: #f4c53f;
+    --tile: #f8e9b8;
+    --tile-text: #3a2f1f;
+}
+
+body {
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+    margin: 0;
+    font-family: 'Arial Black', sans-serif;
+    user-select: none;
+    touch-action: manipulation;
+    overflow: hidden;
+}
+
+.game-container {
+    width: 95%;
+    max-width: 420px;
+    height: 95dvh;
+    background: #1c1f33;
+    border: 8px solid var(--border);
+    border-radius: 24px;
+    padding: 12px;
+    box-shadow: 0 10px 0 #b38b2e;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* HP BAR SİSTEMİ */
+.hp-bars { flex: 0 0 auto; }
+.hp-labels { 
+    display: flex; 
+    justify-content: space-between; 
+    color: white; 
+    font-size: 14px; 
+    margin-bottom: 4px;
+    padding: 0 4px;
+}
+.versus-hp-bar {
+    height: 24px;
+    background: #333;
+    border-radius: 12px;
+    border: 3px solid #f4c53f;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+.hp-fill { height: 100%; transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.player-fill { background: #22c55e; width: 50%; }
+.enemy-fill { background: #ef4444; flex-grow: 1; }
+.versus-divider {
+    position: absolute;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: white;
+    box-shadow: 0 0 10px white;
+    z-index: 2;
+    transition: left 0.4s ease;
+}
+
+/* BATTLE SCENE - KARAKTERLER BURADA DÜZELTİLDİ */
+.battle-scene {
+    flex: 1;
+    position: relative;
+    background: #000;
+    border-radius: 16px;
+    border: 4px solid #3a2f1f;
+    overflow: hidden;
+    min-height: 140px; /* Biraz daha yükseklik verdik */
+}
+.battle-background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+}
+.character {
+    position: absolute;
+    bottom: 5px;
+    width: 110px;  /* Boyut büyütüldü */
+    height: 110px; /* Boyut büyütüldü */
+    object-fit: contain;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+}
+.player-character { 
+    left: 10px; 
+}
+.enemy-character { 
+    right: 10px; 
+    /* transform: scaleX(-1); Kaldırıldı, karakter orijinal yönüne döndü */
+}
+
+/* KELİME EKRANI */
+.word-display {
+    height: 50px;
+    background: #f8e9b8;
+    border: 4px solid #f4c53f;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: #3a2f1f;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+}
+
+/* OYUN ALANI (GRID) */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 8px;
+    flex: 0 0 auto;
+    aspect-ratio: 1/1;
+}
+
+.tile {
+    width: 100%;
+    height: 100%;
+    background: var(--tile);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: min(6vw, 28px);
+    font-weight: bold;
+    color: var(--tile-text);
+    box-shadow: 0 5px 0 #d4b36a;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.1s ease, background 0.2s ease;
+}
+
+/* SEÇİLEN HARF GÖRÜNÜMÜ */
+.tile.selected {
+    background: #f4c53f !important;
+    transform: translateY(4px) scale(0.96);
+    box-shadow: 0 2px 0 #b38b2e !important;
+    border: 2px solid #3a2f1f;
+}
+
+.tile.selected .letter-text {
+    color: #3a2f1f !important;
+    text-shadow: none !important;
+}
+
+.tile-point {
+    position: absolute;
+    right: 4px;
+    bottom: 3px;
+    font-size: 11px;
+    font-weight: 900;
+    opacity: 0.8;
+}
+
+/* KONTROLLER */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+button.primary {
+    flex: 1;
+    height: 54px;
+    background: linear-gradient(to bottom, #f4c53f, #d4a32e);
+    border: none;
+    border-bottom: 5px solid #8d6e24;
+    border-radius: 12px;
+    color: #3a2f1f;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+button.primary:active {
+    border-bottom-width: 2px;
+    transform: translateY(3px);
+}
+
+.pati-puan-display {
+    background: #3a2f1f;
+    color: #f4c53f;
+    padding: 0 12px;
+    border-radius: 12px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 18px;
+    border: 3px solid #f4c53f;
+}
+
+.coin-icon { width: 24px; height: 24px; }
+
+/* ANİMASYONLAR */
+.tile.new-letter { animation: letterPop 0.35s ease-out; }
+@keyframes letterPop { 0% { transform: scale(0.4); } 100% { transform: scale(1); } }
+
+.shake { animation: shake 0.4s ease; }
+@keyframes shake { 0%, 100% { transform: translate(0); } 25% { transform: translate(-5px); } 75% { transform: translate(5px); } }
+
+/* KARAKTER SALDIRI ANİMASYONLARI */
+.anim-attack-p { animation: attackP 0.5s ease; }
+@keyframes attackP { 0% { left: 10px; } 50% { left: 80px; transform: scale(1.2); } 100% { left: 10px; } }
+
+.anim-attack-e { animation: attackE 0.5s ease; }
+@keyframes attackE { 0% { right: 10px; } 50% { right: 80px; transform: scale(1.2); } 100% { right: 10px; } }
+
+.anim-hit { animation: hit 0.4s ease; }
+@keyframes hit { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(3) sepia(1) hue-rotate(-50deg); transform: translateX(10px); } }
