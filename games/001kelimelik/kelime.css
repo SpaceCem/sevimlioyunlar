@@ -246,7 +246,7 @@ button.primary:active {
     .avatar { /* Sizin HTML'inizde kullanılan class veya id retains neyse onu yazın */
         width: 30px !important;   /* İhtiyacınıza göre değeri küçültebilirsiniz (ör. 40px, 50px) */
         height: 30px !important;  /* Genişlikle orantılı tutun */
-        max-width: 100%;
+        max-width: 70%;
         object-fit: cover;       /* Resmin oranının bozulmaması/ezilmemesi için */
     }
 
